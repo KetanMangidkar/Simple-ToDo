@@ -1,25 +1,51 @@
-import logo from './logo.svg';
-import './App.css';
+import { useState } from "react";
+import "./App.css";
 
 function App() {
+
+  const [tasklist, setTodos] = useState([]);
+
+  const getData = (value) => {
+    setTodos([...tasklist, value])
+  }
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <Taskin getData={getData} />
+      {tasklist.map((todo) => {
+        return (
+          <div className="tasklist">
+            {todo}
+
+            <button
+              onClick={() => {
+                setTodos(tasklist.filter((item) => {
+                  return item !== todo;
+                }))
+              }}>Delete</button>
+          </div>
+        )
+      })}
     </div>
-  );
+  )
 }
 
-export default App;
+function Taskin({ getData }) {
+  const [todos, setTodos] = useState("");
+  return (
+    <div className="input_task">
+
+      <input
+        placeholder="Enter your Task"
+        onChange={(e) => { setTodos(e.target.value) }
+        } />
+
+      <button
+        type=""
+        onClick={() => {
+          getData(todos)
+        }}>Add Task</button>
+
+    </div>
+  )
+}
+export default App
